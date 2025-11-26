@@ -1,0 +1,5 @@
+{
+  "name": "PolyMaintenance",
+  "description": "A comprehensive repair and preventive maintenance tracking application for production and engineering teams. Features role-based access, history tracking, and AI-assisted analysis.",
+  "requestFramePermissions": []
+}
