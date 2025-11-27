@@ -1,7 +1,18 @@
 import { GoogleGenAI } from "@google/genai";
 import { Ticket } from "../types";
 
-const apiKey = process.env.API_KEY || '';
+const getApiKey = () => {
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      return process.env.API_KEY;
+    }
+  } catch (e) {
+    // Ignore ReferenceError
+  }
+  return '';
+};
+
+const apiKey = getApiKey();
 
 // Initialize only if key exists (handled gracefully in UI)
 const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;

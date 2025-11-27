@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { DataProvider } from './context/DataContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -37,7 +38,7 @@ const AppContent: React.FC = () => {
 
     switch (currentPage) {
       case 'dashboard':
-        // Reuse TicketBoard for now, but in real app this would have charts
+        // Reuse TicketBoard for now
         return <TicketBoard onSelectTicket={setSelectedTicketId} onNewTicket={() => setIsModalOpen(true)} />;
       case 'tickets':
         return <TicketBoard onSelectTicket={setSelectedTicketId} onNewTicket={() => setIsModalOpen(true)} />;
@@ -56,13 +57,23 @@ const AppContent: React.FC = () => {
   );
 };
 
+// Bridge component to pass Auth state to DataProvider safely
+const AuthAwareDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isOffline } = useAuth();
+  return (
+    <DataProvider isOffline={isOffline}>
+      {children}
+    </DataProvider>
+  );
+};
+
 const App: React.FC = () => {
   return (
-    <DataProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <AuthAwareDataProvider>
         <AppContent />
-      </AuthProvider>
-    </DataProvider>
+      </AuthAwareDataProvider>
+    </AuthProvider>
   );
 };
 
